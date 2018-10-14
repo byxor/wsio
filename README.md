@@ -11,9 +11,11 @@
 
 ## Why wsio?
 
-These types allow you to write code that interacts with websockets, without depending on websockets.
+* It allows you to write code that interacts with websockets, without depending on websockets.
 
-By hiding the websocket's read/write calls behind interfaces, we can increase the portability of our code at a low cost.
+* It increases the testability of your code.
+
+* It reduces the cost of switching networking implementations.
 
 <!--
 ## Before
