@@ -2,6 +2,8 @@
 
 [I/O](https://golang.org/pkg/io/) helpers to be used alongside [gorilla websockets](https://www.github.com/gorilla/websocket) in Go.
 
+[Documentation](https://godoc.org/github.com/byxor/wsio).
+
 ## Includes
 
 * `WebsocketReader     // io.Reader implementation` 
