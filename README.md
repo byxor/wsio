@@ -65,8 +65,6 @@ func echo(connection *websocket.Conn) {
 ### After
 
 ```go
-package main
-
 func echoHandler(response http.ResponseWriter, request *http.Request) {
 	connection, _ := upgrader.Upgrade(response, request, nil)
 	defer connection.Close()
