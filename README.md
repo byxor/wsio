@@ -15,6 +15,10 @@
 * It increases the testability of your code.
 * It reduces the cost of switching networking implementations.
 
+## Why not wsio?
+
+* You want fine-tuned control over your websocket connections.
+
 ## Demo
 
 Let's write an "echo" program that reads some input, prefixes it with `"ECHO: "`, and echoes it back.
