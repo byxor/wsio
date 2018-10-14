@@ -15,30 +15,34 @@
 * It increases the testability of your code.
 * It reduces the cost of switching networking implementations.
 
-## Before
+## Demo
+
+Let's write an "echo" program that reads some input, prefixes it with `"ECHO: "`, and echoes it back.
+
+For now, let's use websockets for our input and output.
+
+Here's some boilerplate to set up an endpoint.
 
 ```go
-package main
+// package...
+// imports...
 
-import (
-	"fmt"
-	"github.com/gorilla/websocket"
-	"log"
-	"net/http"
-)
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 func main() {
 	http.HandleFunc("/", echoHandler)
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
+```
 
+## Before
+
+```go
 func echoHandler(response http.ResponseWriter, request *http.Request) {
-	upgrader := websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool {
-			return true
-		},
-	}
-
 	connection, _ := upgrader.Upgrade(response, request, nil)
 	defer connection.Close()
 
@@ -54,32 +58,16 @@ func echo(connection *websocket.Conn) {
 }
 ```
 
+* Our `echo` function has a hardcoded dependency on websockets.
+* We cannot test this function without opening a real connection.
+* We cannot re-use this function for different I/O devices.
+
 ## After
 
 ```go
 package main
 
-import (
-	"fmt"
-	"github.com/byxor/wsio"
-	"github.com/gorilla/websocket"
-	"io"
-	"log"
-	"net/http"
-)
-
-func main() {
-	http.HandleFunc("/", echoHandler)
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
-}
-
 func echoHandler(response http.ResponseWriter, request *http.Request) {
-	upgrader := websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool {
-			return true
-		},
-	}
-
 	connection, _ := upgrader.Upgrade(response, request, nil)
 	defer connection.Close()
 
@@ -98,3 +86,7 @@ func echo(reader io.Reader, writer io.Writer) {
 	writer.Write([]byte(message))
 }
 ```
+
+* Our `echo` function is device independent.
+* We can unit test this function.
+* We can re-use this function with different I/O devices.
