@@ -12,9 +12,7 @@
 ## Why wsio?
 
 * It allows you to write code that interacts with websockets, without depending on websockets.
-
 * It increases the testability of your code.
-
 * It reduces the cost of switching networking implementations.
 
 <!--
