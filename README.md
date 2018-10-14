@@ -15,16 +15,86 @@
 * It increases the testability of your code.
 * It reduces the cost of switching networking implementations.
 
-<!--
 ## Before
 
 ```go
+package main
 
+import (
+	"fmt"
+	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/", echoHandler)
+	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+}
+
+func echoHandler(response http.ResponseWriter, request *http.Request) {
+	upgrader := websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+
+	connection, _ := upgrader.Upgrade(response, request, nil)
+	defer connection.Close()
+
+	for {
+		echo(connection)
+	}
+}
+
+func echo(connection *websocket.Conn) {
+	messageType, data, _ := connection.ReadMessage()
+	message := fmt.Sprintf("ECHO: %s", string(data))
+	connection.WriteMessage(messageType, []byte(message))
+}
 ```
 
 ## After
 
 ```go
+package main
 
+import (
+	"fmt"
+	"github.com/byxor/wsio"
+	"github.com/gorilla/websocket"
+	"io"
+	"log"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/", echoHandler)
+	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+}
+
+func echoHandler(response http.ResponseWriter, request *http.Request) {
+	upgrader := websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+
+	connection, _ := upgrader.Upgrade(response, request, nil)
+	defer connection.Close()
+
+	reader := wsio.WebsocketReader{connection}
+	writer := wsio.WebsocketWriter{connection}
+
+	for {
+		echo(&reader, &writer)
+	}
+}
+
+func echo(reader io.Reader, writer io.Writer) {
+	buffer := make([]byte, 1024)
+	reader.Read(buffer)
+	message := fmt.Sprintf("ECHO: %s", string(buffer))
+	writer.Write([]byte(message))
+}
 ```
--->
