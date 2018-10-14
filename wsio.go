@@ -1,32 +1,33 @@
-// Package wsio provides helpers to hide gorilla websocket connections
-// behind the io.Reader and io.Writer interfaces.
+// The wsio package provides io.Reader & io.Writer wrappers for Gorilla Websockets.
 package wsio
 
 import (
 	"github.com/gorilla/websocket"
 )
 
-// WebsocketReader is an io.Reader implementation for gorilla websockets.
+// The WebsocketReader type implements io.Reader.
 type WebsocketReader struct {
 	Connection *websocket.Conn
 }
 
-// Read reads data from the websocket into the provided slice.
-// This function will block further execution until data is received via the websocket.
-// Returns the numberOfBytesRead and any errors.
+// The `Read` function reads data from the websocket.
+// The data is read into the `into` buffer.
+// Returns the `numberOfBytesRead` and any `errors`.
+// Note: This function will block execution until data is received.
 func (self *WebsocketReader) Read(into []byte) (int, error) {
 	_, data, err := self.Connection.ReadMessage()
 	copy(into, data)
 	return len(data), err
 }
 
-// WebsocketWriter is an io.Writer implementation for gorilla websockets.
+// The WebsocketWriter type implements io.Writer.
 type WebsocketWriter struct {
 	Connection *websocket.Conn
 }
 
-// Write writes the provided data to the websocket.
-// Returns the numberOfBytesWritten and any errors.
+// The `Write` function writes data to the websocket.
+// Pass your data as the first parameter.
+// Returns the `numberOfBytesWritten` and any `errors`.
 func (self *WebsocketWriter) Write(data []byte) (int, error) {
 	err := self.Connection.WriteMessage(websocket.TextMessage, data)
 	if err != nil {
