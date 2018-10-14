@@ -6,8 +6,8 @@
 
 ## Includes
 
-* `WebsocketReader     // io.Reader implementation` 
-* `WebsocketWriter     // io.Writer implementation`
+* `WebsocketReader` (implements [io.Reader](https://golang.org/pkg/io/#Reader))
+* `WebsocketWriter` (implements [io.Writer](https://golang.org/pkg/io/#Writer))
 
 ## Why wsio?
 
