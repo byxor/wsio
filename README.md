@@ -39,7 +39,7 @@ func main() {
 }
 ```
 
-### Before
+### Without wsio
 
 ```go
 func echoHandler(response http.ResponseWriter, request *http.Request) {
@@ -62,7 +62,7 @@ func echo(connection *websocket.Conn) {
 * We cannot test this function without opening a real connection.
 * We cannot re-use this function for different I/O devices.
 
-### After
+### With wsio
 
 ```go
 func echoHandler(response http.ResponseWriter, request *http.Request) {
