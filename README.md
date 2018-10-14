@@ -18,5 +18,13 @@ By hiding the websocket's read/write calls behind interfaces, we can increase th
 <!--
 ## Before
 
-## Af
+```go
+
+```
+
+## After
+
+```go
+
+```
 -->

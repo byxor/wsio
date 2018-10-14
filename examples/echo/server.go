@@ -9,24 +9,18 @@ import (
 	"net/http"
 )
 
-const (
-	route      = "/"
-	address    = "localhost:8080"
-	bufferSize = 64000
-)
-
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
 func main() {
-	http.HandleFunc(route, echoHandler)
-	log.Fatal(http.ListenAndServe(address, nil))
+	http.HandleFunc("/", echoHandler)
+	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }
 
 func echoHandler(response http.ResponseWriter, request *http.Request) {
+	upgrader := websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+
 	connection, _ := upgrader.Upgrade(response, request, nil)
 	defer connection.Close()
 
@@ -41,6 +35,7 @@ func echoHandler(response http.ResponseWriter, request *http.Request) {
 func echo(reader io.Reader, writer io.Writer) {
 	buffer := make([]byte, 1024)
 	reader.Read(buffer)
-	message := fmt.Sprintf("ECHO: %s", string(buffer))
-	writer.Write([]byte(message))
+	input := string(buffer)
+	output := fmt.Sprintf("ECHO: %s", input)
+	writer.Write([]byte(output))
 }
