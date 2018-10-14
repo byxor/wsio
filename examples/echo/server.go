@@ -35,7 +35,6 @@ func echoHandler(response http.ResponseWriter, request *http.Request) {
 func echo(reader io.Reader, writer io.Writer) {
 	buffer := make([]byte, 1024)
 	reader.Read(buffer)
-	input := string(buffer)
-	output := fmt.Sprintf("ECHO: %s", input)
-	writer.Write([]byte(output))
+	message := fmt.Sprintf("ECHO: %s", string(buffer))
+	writer.Write([]byte(message))
 }
