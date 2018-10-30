@@ -4,6 +4,8 @@
 
 [![Documentation](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/byxor/wsio)
 
+![Image of wsio](https://raw.githubusercontent.com/byxor/wsio/master/docs/wsio.png)
+
 ## Includes
 
 * `WebsocketReader` (implements [io.Reader](https://golang.org/pkg/io/#Reader))
