@@ -1,5 +1,7 @@
 # wsio
 
+<img alt="Image of wsio" src="https://raw.githubusercontent.com/byxor/wsio/master/docs/wsio.png" width=30%>
+
 [I/O](https://golang.org/pkg/io/) helpers to be used alongside [gorilla websockets](https://www.github.com/gorilla/websocket) in Go.
 
 [![Documentation](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/byxor/wsio)
@@ -8,8 +10,6 @@
 
 * `WebsocketReader` (implements [io.Reader](https://golang.org/pkg/io/#Reader))
 * `WebsocketWriter` (implements [io.Writer](https://golang.org/pkg/io/#Writer))
-
-<img alt="Image of wsio" src="https://raw.githubusercontent.com/byxor/wsio/master/docs/wsio.png" width=30%>
 
 ## Why wsio?
 
